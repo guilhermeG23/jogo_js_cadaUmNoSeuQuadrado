@@ -1,0 +1,306 @@
+<style>
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+    body {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+    }
+    .container {
+        width: 100%;
+        height: 100%;
+        margin: auto;
+    }
+    .caixa-margin {
+        
+        width: 100%;
+        height: 100%;
+        margin: auto;
+    }
+    .menu {
+        width: 100%;
+        min-height: 10%;
+        max-height: 10%;
+        display: inline-flex;
+    }
+    .caixa-tabela {
+        width: 100%;
+        height: 100%;
+    }
+    .tabela {
+        width: 90%;
+        height: 88%;
+        margin: auto;
+    }
+    .img-coracao {
+        width: 32px;
+        margin: 1%;
+    }
+    .coracoes {
+        width: 50%;
+        margin: auto;
+        text-align: center;
+    }
+    .valores {
+        width: 50%;
+        color: white;
+        font-size: 24px;
+        margin: auto;
+        text-align: center;
+    }
+    .tabela-td {
+        background-color: gray;
+        border: 1px solid red;
+        text-align:center;
+        vertical-align: middle;
+        font-size: 32px;
+        color: white;
+
+    }
+    .tabela-td-alterada {
+        background-color: purple;
+        border: 1px solid white;
+        text-align:center;
+        vertical-align: middle;
+        font-size: 32px;
+        color: white;
+    }
+</style>
+<div class="container">
+    <div class="caixa-margin">
+        <div id="menu" class="menu">
+            <div id="coracoes" class="coracoes">
+
+            </div>
+            <div id="valores" class="valores">
+
+            </div>
+        </div>
+        <div name="caixa-tabela" id="caixa-tabela">
+            <table class="tabela" id="tabela">
+            </table>
+        </div>
+    </div>       
+</div>
+<script>
+
+    var valor = 3;
+    var maximo = (valor * valor);
+    var medio = Math.ceil((valor * valor) / 2);
+    var rodadas = maximo;
+    var contador = 1;
+    let posicao_atual = medio;
+    let coracoes = 0;
+
+
+    document.getElementById("valores").textContent="0";
+
+    let tagTexto = document.createElement("p");
+    tagTexto.textContent=medio-1;
+    tagTexto.id="movimentar";
+
+
+    for (var c = 1; c <= valor; c++) {
+
+        var linha = document.createElement("tr");
+        var coracao = document.createElement("img");
+        coracao.src="https://opengameart.org/sites/default/files/styles/medium/public/heart%20pixel%20art%20254x254.png";
+        coracao.className="img-coracao";
+        coracao.id="c"+c;
+        document.getElementById("coracoes").appendChild(coracao);
+        coracoes++;
+
+
+        for (var i = 1; i <= valor; i++) {
+            var porcentagem = 100 / valor; 
+            var caixa_atual = document.createElement("td");
+
+            caixa_atual.id = contador;
+            caixa_atual.className="tabela-td";
+
+            caixa_atual.style.width=porcentagem-1+"%";
+            caixa_atual.style.height=porcentagem-1+"%";
+
+            if (contador == medio) {
+                caixa_atual.appendChild(tagTexto);
+            }
+
+
+            linha.appendChild(caixa_atual);
+            contador++;
+        }
+        document.getElementById("tabela").appendChild(linha)
+
+    }
+
+
+    document.addEventListener('keypress', (event) => {
+    var tecla = event.key;
+    tecla = tecla.toLowerCase();
+    if (tecla == "w") {
+        if ((posicao_atual-valor) >= 1) {
+            document.getElementById(posicao_atual-valor).appendChild(tagTexto);
+            posicao_atual = posicao_atual-valor;
+        }
+    } else if (tecla == "a") {
+        if ((posicao_atual-1) >= 1) {
+            document.getElementById(posicao_atual-1).appendChild(tagTexto);
+            posicao_atual = posicao_atual-1;
+        }
+    } else if (tecla == "s") {
+        if ((posicao_atual+valor) <= (valor * valor)) {
+            document.getElementById(posicao_atual+valor).appendChild(tagTexto);
+            posicao_atual = posicao_atual+valor;
+
+        }
+    } else if (tecla == "d") {
+        if ((posicao_atual+1) <= (valor * valor)) {
+            document.getElementById(posicao_atual+1).appendChild(tagTexto);
+            posicao_atual = posicao_atual+1;
+
+        }  
+    }
+    //document.getElementById("teste").textContent = name + " " + event.code;
+    //var code = event.code;
+    // Alert the key name and key code on keydown
+    //alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+    }, false);
+
+
+    function alterarCaixas() {
+        setTimeout(function (){
+            let posicoes_css = []
+            while(posicoes_css.length < medio) {
+                valorAtual = Math.ceil(Math.random()*maximo);
+                if (posicoes_css.indexOf(valorAtual) == "-1") {
+                    posicoes_css.push(valorAtual);
+                }
+            }
+            posicoes_css.forEach(element => {
+                setTimeout(function (){document.getElementById(element).className="tabela-td-alterada"; 
+                    setTimeout(function (){document.getElementById(element).className="tabela-td"; 
+                        setTimeout(function (){document.getElementById(element).className="tabela-td-alterada"; 
+                            setTimeout(function (){document.getElementById(element).className="tabela-td-alterada"; 
+                                setTimeout(function (){document.getElementById(element).className="tabela-td"; 
+                                    setTimeout(function (){document.getElementById(element).className="tabela-td-alterada";
+                                        setTimeout(function (){document.getElementById(element).className="tabela-td"; 
+                                            setTimeout(function (){document.getElementById(element).className="tabela-td-alterada"; 
+                                                setTimeout(function (){document.getElementById(element).className="tabela-td-alterada";
+                                                    setTimeout(function (){document.getElementById(element).className="tabela-td";
+                                                    },3000)
+                                                },500)
+                                            },1000)
+                                        },1500);
+                                    },2000);
+                                },2500);
+                            },3000);
+                        },3500);
+                    },4000);
+                },4500)
+            });
+        }, 1000);
+    }
+    
+
+    function buscarStatus() {
+        let caixas = document.getElementsByClassName("tabela-td-alterada");
+        let status = false;
+        let ganhou = false;
+        let perdeu = false;
+        for(var p=0; p<caixas.length; p++) {
+            if(caixas[p].textContent != "") {
+                status = true;
+                break;
+            }
+        }
+        if (status) {
+            if(parseInt(document.getElementById("movimentar").textContent) < medio-1) {
+                document.getElementById("movimentar").textContent = parseInt(document.getElementById("movimentar").textContent) + 1;  
+                if(parseInt(document.getElementById("valores").textContent) > 0) {
+                    document.getElementById("valores").textContent = parseInt(document.getElementById("valores").textContent) - 1000;
+                }
+            } 
+
+            if (document.getElementById("c"+coracoes).style.filter == "") {
+                document.getElementById("c"+coracoes).style.filter="grayscale(1)";
+                coracoes--;
+                if (coracoes == 0) {
+                    perdeu = true;
+                }
+            }
+            
+
+
+        } else {
+            document.getElementById("movimentar").textContent = parseInt(document.getElementById("movimentar").textContent) - 1;  
+            document.getElementById("valores").textContent = parseInt(document.getElementById("valores").textContent) + 1000;
+            if (parseInt(document.getElementById("movimentar").textContent) == 0) {
+                ganhou = true;
+            }
+        }
+        if (perdeu || ganhou) {
+            if (ganhou) {
+                alert("Fim de jogo - ganhou!");
+            }
+            if (perdeu) {
+                alert("Perdeu o jogo");
+            }
+            return true;
+        }
+
+        alterarCaixas();
+        setTimeout(function (){buscarStatus();}, 25000);
+    }
+
+
+    alterarCaixas();
+    setTimeout(function (){buscarStatus();}, 25000);
+    
+
+</script>
